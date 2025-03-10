@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Repeated Reading API Playground</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+    .endpoint-card {
+      margin-bottom: 1rem;
+      border-radius: 8px;
+    }
+    .response-area {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: monospace;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .nav-pills .nav-link.active {
+      background-color: #0d6efd;
+    }
+    .auth-token {
+      font-size: 12px;
+      word-break: break-all;
+    }
+    .nav-tabs .nav-link {
+      color: #495057;
+    }
+    .nav-tabs .nav-link.active {
+      color: #0d6efd;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="mb-4">Repeated Reading API Playground</h1>
+    <div class="row">
+      <div class="col-12 mb-4">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h3 class="card-title mb-0">Authentication & Registration</h3>
+          </div>
+          <div class="card-body">
+            <!-- Auth Tabs -->
+            <ul class="nav nav-tabs mb-3" id="auth-tabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-content" type="button" role="tab">Login</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register-content" type="button" role="tab">Register</button>
+              </li>
+            </ul>
+            
+            <!-- Auth Tab Content -->
+            <div class="tab-content" id="auth-tab-content">
+              <!-- Login Tab -->
+              <div class="tab-pane fade show active" id="login-content" role="tabpanel">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h5>Teacher Login</h5>
+                    <form id="teacher-login-form">
+                      <div class="mb-3">
+                        <label for="teacher-username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="teacher-username" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="teacher-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="teacher-password" required>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                  </div>
+                  <div class="col-md-6">
+                    <h5>Student Login</h5>
+                    <form id="student-login-form">
+                      <div class="mb-3">
+                        <label for="student-username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="student-username" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="student-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="student-password" required>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Register Tab -->
+              <div class="tab-pane fade" id="register-content" role="tabpanel">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h5>Teacher Registration</h5>
+                    <form id="teacher-register-form">
+                      <div class="mb-3">
+                        <label for="teacher-register-username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="teacher-register-username" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="teacher-register-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="teacher-register-email" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="teacher-register-first-name" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="teacher-register-first-name" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="teacher-register-last-name" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="teacher-register-last-name" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="teacher-register-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="teacher-register-password" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="teacher-register-school-id" class="form-label">School ID</label>
+                        <input type="text" class="form-control" id="teacher-register-school-id" required>
+                      </div>
+                      <button type="submit" class="btn btn-success">Register</button>
+                    </form>
+                  </div>
+                  <div class="col-md-6">
+                    <h5>Student Registration</h5>
+                    <form id="student-register-form">
+                      <div class="mb-3">
+                        <label for="student-register-username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="student-register-username" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="student-register-first-name" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="student-register-first-name" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="student-register-last-name" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="student-register-last-name" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="student-register-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="student-register-password" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="student-register-grade" class="form-label">Grade</label>
+                        <select class="form-select" id="student-register-grade" required>
+                          <option value="">Select Grade</option>
+                          <option value="K">Kindergarten</option>
+                          <option value="1">1st Grade</option>
+                          <option value="2">2nd Grade</option>
+                          <option value="3">3rd Grade</option>
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="student-register-teacher-id" class="form-label">Teacher ID</label>
+                        <input type="text" class="form-control" id="student-register-teacher-id" required>
+                      </div>
+                      <button type="submit" class="btn btn-success">Register</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-3">
+              <div class="mb-2">Current Auth Token:</div>
+              <div class="alert alert-secondary auth-token" id="auth-token">No token</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ul class="nav nav-pills mb-4" id="endpoints-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="healthcheck-tab" data-bs-toggle="pill" data-bs-target="#healthcheck" type="button" role="tab">Healthcheck</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="users-tab" data-bs-toggle="pill" data-bs-target="#users" type="button" role="tab">Users</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="teachers-tab" data-bs-toggle="pill" data-bs-target="#teachers" type="button" role="tab">Teachers</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="schools-tab" data-bs-toggle="pill" data-bs-target="#schools" type="button" role="tab">Schools</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="reading-materials-tab" data-bs-toggle="pill" data-bs-target="#reading-materials" type="button" role="tab">Reading Materials</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="reading-sessions-tab" data-bs-toggle="pill" data-bs-target="#reading-sessions" type="button" role="tab">Reading Sessions</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="achievements-tab" data-bs-toggle="pill" data-bs-target="#achievements" type="button" role="tab">Achievements</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="rewards-tab" data-bs-toggle="pill" data-bs-target="#rewards" type="button" role="tab">Rewards</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="progress-tab" data-bs-toggle="pill" data-bs-target="#progress" type="button" role="tab">Progress</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="goals-tab" data-bs-toggle="pill" data-bs-target="#goals" type="button" role="tab">Goals</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="assignments-tab" data-bs-toggle="pill" data-bs-target="#assignments" type="button" role="tab">Assignments</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="reading-errors-tab" data-bs-toggle="pill" data-bs-target="#reading-errors" type="button" role="tab">Reading Errors</button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="endpoints-tab-content">
+      <!-- Healthcheck Section -->
+      <div class="tab-pane fade show active" id="healthcheck" role="tabpanel">
+        <div class="card endpoint-card">
+          <div class="card-header bg-success text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>GET /api/healthcheck</span>
+              <button class="btn btn-sm btn-light" onclick="executeRequest('GET', '/api/healthcheck')">Execute</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Basic healthcheck to verify server and database connection.</p>
+            <h6>Response:</h6>
+            <div class="response-area" id="healthcheck-response">Click Execute to see the response</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users Section -->
+      <div class="tab-pane fade" id="users" role="tabpanel">
+        <!-- Get All Users Endpoint -->
+        <div class="card endpoint-card">
+          <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>GET /api/users</span>
+              <button class="btn btn-sm btn-light" onclick="executeRequest('GET', '/api/users', null, true)">Execute</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Get all users. Requires authentication.</p>
+            <h6>Response:</h6>
+            <div class="response-area" id="users-get-response">Click Execute to see the response</div>
+          </div>
+        </div>
+
+        <!-- Get User by ID Endpoint -->
+        <div class="card endpoint-card">
+          <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>GET /api/users/:id</span>
+              <div>
+                <input type="text" class="form-control form-control-sm d-inline-block" id="user-id" placeholder="User ID" style="width: 100px;">
+                <button class="btn btn-sm btn-light" onclick="executeRequest('GET', '/api/users/' + document.getElementById('user-id').value, null, true)">Execute</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Get user by ID. Requires authentication.</p>
+            <h6>Response:</h6>
+            <div class="response-area" id="user-get-by-id-response">Click Execute to see the response</div>
+          </div>
+        </div>
+        
+        <!-- Create User (Student) Endpoint -->
+        <div class="card endpoint-card">
+          <div class="card-header bg-success text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>POST /api/users</span>
+              <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#create-user-modal">Test</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Create a new student user. Alternatively, you can use the Registration form at the top of the page.</p>
+            <h6>Response:</h6>
+            <div class="response-area" id="user-create-response">Use the Test button to try this endpoint</div>
+          </div>
+        </div>
+
+        <!-- Update User Endpoint -->
+        <div class="card endpoint-card">
+          <div class="card-header bg-warning text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>PUT /api/users/:id</span>
+              <div>
+                <input type="text" class="form-control form-control-sm d-inline-block" id="update-user-id" placeholder="User ID" style="width: 100px;">
+                <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#update-user-modal">Test</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Update user information. Requires authentication.</p>
+            <h6>Response:</h6>
+            <div class="response-area" id="user-update-response">Use the Test button to try this endpoint</div>
+          </div>
+        </div>
+
+        <!-- Delete User Endpoint -->
+        <div class="card endpoint-card">
+          <div class="card-header bg-danger text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>DELETE /api/users/:id</span>
+              <div>
+                <input type="text" class="form-control form-control-sm d-inline-block" id="delete-user-id" placeholder="User ID" style="width: 100px;">
+                <button class="btn btn-sm btn-light" onclick="confirmDelete('user', document.getElementById('delete-user-id').value)">Execute</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Delete a user. Requires authentication and proper permissions.</p>
+            <h6>Response:</h6>
+            <div class="response-area" id="user-delete-response">Click Execute to see the response</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Teachers Section -->
+      <div class="tab-pane fade" id="teachers" role="tabpanel">
+        <!-- Get All Teachers Endpoint -->
+        <div class="card endpoint-card">
+          <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>GET /api/teachers</span>
+              <button class="btn btn-sm btn-light" onclick="executeRequest('GET', '/api/teachers', null, true)">Execute</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Get all teachers. Requires authentication.</p>
+            <h6>Response:</h6>
+            <div class="response-area" id="teachers-get-response">Click Execute to see the response</div>
+          </div>
+        </div>
+
+        <!-- Get Teacher by ID Endpoint -->
+        <div class="card endpoint-card">
+          <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>GET /api/teachers/:id</span>
+              <div>
+                <input type="text" class="form-control form-control-sm d-inline-block" id="teacher-id" placeholder="Teacher ID" style="width: 100px;">
+                <button class="btn btn-sm btn-light" onclick="executeRequest('GET', '/api/teachers/' + document.getElementById('teacher-id').value, null, true)">Execute</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Get teacher by ID. Requires authentication.</p>
+            <h6>Response:</h6>
+            <div class="response-area" id="teacher-get-by-id-response">Click Execute to see the response</div>
+          </div>
+        </div>
+        
+        <!-- Create Teacher Endpoint -->
+        <div class="card endpoint-card">
+          <div class="card-header bg-success text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>POST /api/teachers</span>
+              <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#create-teacher-modal">Test</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Create a new teacher. Alternatively, you can use the Registration form at the top of the page.</p>
+            <h6>Response:</h6>
+            <div class="response-area" id="teacher-create-response">Use the Test button to try this endpoint</div>
+          </div>
+        </div>
+
+        <!-- Update Teacher Endpoint -->
+        <div class="card endpoint-card">
+          <div class="card-header bg-warning text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>PUT /api/teachers/:id</span>
+              <div>
+                <input type="text" class="form-control form-control-sm d-inline-block" id="update-teacher-id" placeholder="Teacher ID" style="width: 100px;">
+                <button class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#update-teacher-modal">Test</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Update teacher information. Requires authentication.</p>
+            <h6>Response:</h6>
+            <div class="response-area" id="teacher-update-response">Use the Test button to try this endpoint</div>
+          </div>
+        </div>
+
+        <!-- Delete Teacher Endpoint -->
+        <div class="card endpoint-card">
+          <div class="card-header bg-danger text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>DELETE /api/teachers/:id</span>
+              <div>
+                <input type="text" class="form-control form-control-sm d-inline-block" id="delete-teacher-id" placeholder="Teacher ID" style="width: 100px;">
+                <button class="btn btn-sm btn-light" onclick="confirmDelete('teacher', document.getElementById('delete-teacher-id').value)">Execute</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Delete a teacher. Requires authentication and proper permissions.</p>
+            <h6>Response:</h6>
+            <div class="response-area" id="teacher-delete-response">Click Execute to see the response</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schools Section -->
+      <div class="tab-pane fade" id="schools" role="tabpanel">
+        <!-- Get All Schools Endpoint -->
+        <div class="card endpoint-card">
+          <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>GET /api/schools</span>
+              <button class="btn btn-sm btn-light" onclick="executeRequest('GET', '/api/schools', null, true)">Execute</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <p>Get all schools. Requires authentication.</p>
+            <h6>Response:</h6>
+            <div class="response-area" id="schools-get-response">Click Execute to see the response</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add empty placeholders for other tabs -->
+      <div class="tab-pane fade" id="reading-materials" role="tabpanel">
+        <div class="alert alert-info">Reading Materials endpoints</div>
+      </div>
+      <div class="tab-pane fade" id="reading-sessions" role="tabpanel">
+        <div class="alert alert-info">Reading Sessions endpoints</div>
+      </div>
+      <div class="tab-pane fade" id="achievements" role="tabpanel">
+        <div class="alert alert-info">Achievements endpoints</div>
+      </div>
+      <div class="tab-pane fade" id="rewards" role="tabpanel">
+        <div class="alert alert-info">Rewards endpoints</div>
+      </div>
+      <div class="tab-pane fade" id="progress" role="tabpanel">
+        <div class="alert alert-info">Progress endpoints</div>
+      </div>
+      <div class="tab-pane fade" id="goals" role="tabpanel">
+        <div class="alert alert-info">Goals endpoints</div>
+      </div>
+      <div class="tab-pane fade" id="assignments" role="tabpanel">
+        <div class="alert alert-info">Assignments endpoints</div>
+      </div>
+      <div class="tab-pane fade" id="reading-errors" role="tabpanel">
+        <div class="alert alert-info">Reading Errors endpoints</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals for Create/Update operations -->
+  <!-- Create User Modal -->
+  <div class="modal fade" id="create-user-modal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createUserModalLabel">Create User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="create-user-form">
+            <div class="mb-3">
+              <label for="create-user-username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="create-user-username" required>
+            </div>
+            <div class="mb-3">
+              <label for="create-user-first-name" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="create-user-first-name" required>
+            </div>
+            <div class="mb-3">
+              <label for="create-user-last-name" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="create-user-last-name" required>
+            </div>
+            <div class="mb-3">
+              <label for="create-user-password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="create-user-password" required>
+            </div>
+            <div class="mb-3">
+              <label for="create-user-grade" class="form-label">Grade</label>
+              <select class="form-select" id="create-user-grade" required>
+                <option value="">Select Grade</option>
+                <option value="K">Kindergarten</option>
+                <option value="1">1st Grade</option>
+                <option value="2">2nd Grade</option>
+                <option value="3">3rd Grade</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="create-user-teacher-id" class="form-label">Teacher ID</label>
+              <input type="text" class="form-control" id="create-user-teacher-id" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="createUser()">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Teacher Modal -->
+  <div class="modal fade" id="create-teacher-modal" tabindex="-1" aria-labelledby="createTeacherModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createTeacherModalLabel">Create Teacher</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="create-teacher-form">
+            <div class="mb-3">
+              <label for="create-teacher-username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="create-teacher-username" required>
+            </div>
+            <div class="mb-3">
+              <label for="create-teacher-email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="create-teacher-email" required>
+            </div>
+            <div class="mb-3">
+              <label for="create-teacher-first-name" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="create-teacher-first-name" required>
+            </div>
+            <div class="mb-3">
+              <label for="create-teacher-last-name" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="create-teacher-last-name" required>
+            </div>
+            <div class="mb-3">
+              <label for="create-teacher-password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="create-teacher-password" required>
+            </div>
+            <div class="mb-3">
+              <label for="create-teacher-school-id" class="form-label">School ID</label>
+              <input type="text" class="form-control" id="create-teacher-school-id" required>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="createTeacher()">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Update User Modal -->
+  <div class="modal fade" id="update-user-modal" tabindex="-1" aria-labelledby="updateUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateUserModalLabel">Update User</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="update-user-form">
+            <div class="mb-3">
+              <label for="update-user-username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="update-user-username">
+            </div>
+            <div class="mb-3">
+              <label for="update-user-first-name" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="update-user-first-name">
+            </div>
+            <div class="mb-3">
+              <label for="update-user-last-name" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="update-user-last-name">
+            </div>
+            <div class="mb-3">
+              <label for="update-user-grade" class="form-label">Grade</label>
+              <select class="form-select" id="update-user-grade">
+                <option value="">Select Grade</option>
+                <option value="K">Kindergarten</option>
+                <option value="1">1st Grade</option>
+                <option value="2">2nd Grade</option>
+                <option value="3">3rd Grade</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="updateUser()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Update Teacher Modal -->
+  <div class="modal fade" id="update-teacher-modal" tabindex="-1" aria-labelledby="updateTeacherModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateTeacherModalLabel">Update Teacher</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="update-teacher-form">
+            <div class="mb-3">
+              <label for="update-teacher-username" class="form-label">Username</label>
+              <input type="text" class="form-control" id="update-teacher-username">
+            </div>
+            <div class="mb-3">
+              <label for="update-teacher-email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="update-teacher-email">
+            </div>
+            <div class="mb-3">
+              <label for="update-teacher-first-name" class="form-label">First Name</label>
+              <input type="text" class="form-control" id="update-teacher-first-name">
+            </div>
+            <div class="mb-3">
+              <label for="update-teacher-last-name" class="form-label">Last Name</label>
+              <input type="text" class="form-control" id="update-teacher-last-name">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="updateTeacher()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Store authentication token
+    let authToken = '';
+    
+    // Handle teacher login
+    document.getElementById('teacher-login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('teacher-username').value;
+      const password = document.getElementById('teacher-password').value;
+      
+      executeRequest('POST', '/api/auth/teacher/login', { username, password }, false, function(response) {
+        if (response && response.token) {
+          authToken = response.token;
+          document.getElementById('auth-token').textContent = authToken;
+          alert('Teacher logged in successfully!');
+        }
+      });
+    });
+    
+    // Handle student login
+    document.getElementById('student-login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('student-username').value;
+      const password = document.getElementById('student-password').value;
+      
+      executeRequest('POST', '/api/auth/student/login', { username, password }, false, function(response) {
+        if (response && response.token) {
+          authToken = response.token;
+          document.getElementById('auth-token').textContent = authToken;
+          alert('Student logged in successfully!');
+        }
+      });
+    });
+    
+    // Handle teacher registration
+    document.getElementById('teacher-register-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('teacher-register-username').value;
+      const email = document.getElementById('teacher-register-email').value;
+      const firstName = document.getElementById('teacher-register-first-name').value;
+      const lastName = document.getElementById('teacher-register-last-name').value;
+      const password = document.getElementById('teacher-register-password').value;
+      const schoolId = document.getElementById('teacher-register-school-id').value;
+      
+      const teacherData = {
+        username,
+        email,
+        first_name: firstName,
+        last_name: lastName,
+        password,
+        school_id: schoolId
+      };
+      
+      executeRequest('POST', '/api/teachers', teacherData, false, function(response) {
+        if (response && (response.id || response.teacher_id)) {
+          alert('Teacher registered successfully! You can now login.');
+          // Switch to login tab
+          document.getElementById('login-tab').click();
+        }
+      });
+    });
+    
+    // Handle student registration
+    document.getElementById('student-register-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('student-register-username').value;
+      const firstName = document.getElementById('student-register-first-name').value;
+      const lastName = document.getElementById('student-register-last-name').value;
+      const password = document.getElementById('student-register-password').value;
+      const grade = document.getElementById('student-register-grade').value;
+      const teacherId = document.getElementById('student-register-teacher-id').value;
+      
+      const studentData = {
+        username,
+        first_name: firstName,
+        last_name: lastName,
+        password,
+        grade,
+        teacher_id: teacherId
+      };
+      
+      executeRequest('POST', '/api/users/register', studentData, false, function(response) {
+        if (response && (response.id || response.user_id)) {
+          alert('Student registered successfully! You can now login.');
+          // Switch to login tab
+          document.getElementById('login-tab').click();
+        }
+      });
+    });
+    
+    // Create a user through the modal
+    function createUser() {
+      const userData = {
+        username: document.getElementById('create-user-username').value,
+        first_name: document.getElementById('create-user-first-name').value,
+        last_name: document.getElementById('create-user-last-name').value,
+        password: document.getElementById('create-user-password').value,
+        grade: document.getElementById('create-user-grade').value,
+        teacher_id: document.getElementById('create-user-teacher-id').value
+      };
+      
+      executeRequest('POST', '/api/users/register', userData, false, function(response) {
+        if (response && (response.id || response.user_id)) {
+          alert('User created successfully!');
+          // Close the modal
+          const modal = bootstrap.Modal.getInstance(document.getElementById('create-user-modal'));
+          modal.hide();
+          // Update the response area
+          document.getElementById('user-create-response').textContent = JSON.stringify(response, null, 2);
+        }
+      });
+    }
+    
+    // Create a teacher through the modal
+    function createTeacher() {
+      const teacherData = {
+        username: document.getElementById('create-teacher-username').value,
+        email: document.getElementById('create-teacher-email').value,
+        first_name: document.getElementById('create-teacher-first-name').value,
+        last_name: document.getElementById('create-teacher-last-name').value,
+        password: document.getElementById('create-teacher-password').value,
+        school_id: document.getElementById('create-teacher-school-id').value
+      };
+      
+      executeRequest('POST', '/api/teachers', teacherData, false, function(response) {
+        if (response && (response.id || response.teacher_id)) {
+          alert('Teacher created successfully!');
+          // Close the modal
+          const modal = bootstrap.Modal.getInstance(document.getElementById('create-teacher-modal'));
+          modal.hide();
+          // Update the response area
+          document.getElementById('teacher-create-response').textContent = JSON.stringify(response, null, 2);
+        }
+      });
+    }
+    
+    // Update a user
+    function updateUser() {
+      const userId = document.getElementById('update-user-id').value;
+      const userData = {};
+      
+      // Only include fields that have values
+      const username = document.getElementById('update-user-username').value;
+      if (username) userData.username = username;
+      
+      const firstName = document.getElementById('update-user-first-name').value;
+      if (firstName) userData.first_name = firstName;
+      
+      const lastName = document.getElementById('update-user-last-name').value;
+      if (lastName) userData.last_name = lastName;
+      
+      const grade = document.getElementById('update-user-grade').value;
+      if (grade) userData.grade = grade;
+      
+      executeRequest('PUT', `/api/users/${userId}`, userData, true, function(response) {
+        if (response) {
+          alert('User updated successfully!');
+          // Close the modal
+          const modal = bootstrap.Modal.getInstance(document.getElementById('update-user-modal'));
+          modal.hide();
+          // Update the response area
+          document.getElementById('user-update-response').textContent = JSON.stringify(response, null, 2);
+        }
+      });
+    }
+    
+    // Update a teacher
+    function updateTeacher() {
+      const teacherId = document.getElementById('update-teacher-id').value;
+      const teacherData = {};
+      
+      // Only include fields that have values
+      const username = document.getElementById('update-teacher-username').value;
+      if (username) teacherData.username = username;
+      
+      const email = document.getElementById('update-teacher-email').value;
+      if (email) teacherData.email = email;
+      
+      const firstName = document.getElementById('update-teacher-first-name').value;
+      if (firstName) teacherData.first_name = firstName;
+      
+      const lastName = document.getElementById('update-teacher-last-name').value;
+      if (lastName) teacherData.last_name = lastName;
+      
+      executeRequest('PUT', `/api/teachers/${teacherId}`, teacherData, true, function(response) {
+        if (response) {
+          alert('Teacher updated successfully!');
+          // Close the modal
+          const modal = bootstrap.Modal.getInstance(document.getElementById('update-teacher-modal'));
+          modal.hide();
+          // Update the response area
+          document.getElementById('teacher-update-response').textContent = JSON.stringify(response, null, 2);
+        }
+      });
+    }
+    
+    // Confirm delete operation
+    function confirmDelete(type, id) {
+      if (!id) {
+        alert(`Please enter a ${type} ID`);
+        return;
+      }
+      
+      if (confirm(`Are you sure you want to delete this ${type}? This action cannot be undone.`)) {
+        const endpoint = `/api/${type === 'user' ? 'users' : 'teachers'}/${id}`;
+        const responseAreaId = `${type}-delete-response`;
+        
+        executeRequest('DELETE', endpoint, null, true, function(response) {
+          if (response) {
+            alert(`${type.charAt(0).toUpperCase() + type.slice(1)} deleted successfully!`);
+            document.getElementById(responseAreaId).textContent = JSON.stringify(response, null, 2);
+          }
+        });
+      }
+    }
+    
+    // Execute API requests
+    function executeRequest(method, url, data = null, requiresAuth = false, callback) {
+      const options = {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+      
+      if (requiresAuth) {
+        if (!authToken) {
+          alert('Authentication required! Please login first.');
+          return;
+        }
+        options.headers['Authorization'] = `Bearer ${authToken}`;
+      }
+      
+      if (data) {
+        options.body = JSON.stringify(data);
+      }
+      
+      // Extract endpoint identifier for response area
+      let responseAreaId;
+      if (url === '/api/healthcheck') {
+        responseAreaId = 'healthcheck-response';
+      } else if (url === '/api/users') {
+        responseAreaId = method === 'GET' ? 'users-get-response' : 'user-create-response';
+      } else if (url.startsWith('/api/users/') && method === 'GET') {
+        responseAreaId = 'user-get-by-id-response';
+      } else if (url.startsWith('/api/users/') && method === 'PUT') {
+        responseAreaId = 'user-update-response';
+      } else if (url.startsWith('/api/users/') && method === 'DELETE') {
+        responseAreaId = 'user-delete-response';
+      } else if (url === '/api/teachers') {
+        responseAreaId = method === 'GET' ? 'teachers-get-response' : 'teacher-create-response';
+      } else if (url.startsWith('/api/teachers/') && method === 'GET') {
+        responseAreaId = 'teacher-get-by-id-response';
+      } else if (url.startsWith('/api/teachers/') && method === 'PUT') {
+        responseAreaId = 'teacher-update-response';
+      } else if (url.startsWith('/api/teachers/') && method === 'DELETE') {
+        responseAreaId = 'teacher-delete-response';
+      } else if (url === '/api/schools') {
+        responseAreaId = 'schools-get-response';
+      } else {
+        // Generate a default id based on the URL
+        responseAreaId = url.replace(/\//g, '-').replace(/:/g, '-').substring(1) + '-response';
+      }
+      
+      const responseArea = document.getElementById(responseAreaId);
+      if (responseArea) {
+        responseArea.textContent = 'Loading...';
+      }
+      
+      fetch(url, options)
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(errorData => {
+              throw new Error(`HTTP error! Status: ${response.status}, Message: ${JSON.stringify(errorData)}`);
+            });
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (responseArea) {
+            responseArea.textContent = JSON.stringify(data, null, 2);
+          }
+          if (callback) {
+            callback(data);
+          }
+        })
+        .catch(error => {
+          if (responseArea) {
+            responseArea.textContent = `Error: ${error.message}`;
+          }
+          console.error('API request error:', error);
+        });
+    }
+  </script>
+</body>
+</html> 
