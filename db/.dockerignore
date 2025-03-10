@@ -1,0 +1,27 @@
+# Version control
+.git
+.gitignore
+
+# Docker files (not needed inside the container)
+docker-compose.yml
+.dockerignore
+docker-helpers.sh
+
+# Backup files
+backups/
+
+# Markdown files
+*.md
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Mobile app directory (not needed for database)
+mobile/ 
